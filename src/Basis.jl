@@ -28,4 +28,9 @@ function evalLagrange( degree, basis_idx, domain, x )
     return basis_val
 end
 
+function evalMonomial( degree, basis_idx, domain, x )
+    ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
+    return ξ ^ ( basis_idx - 1 )
+end
+
 end
