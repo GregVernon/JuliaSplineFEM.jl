@@ -134,6 +134,49 @@ end
     end
 end
 
+@testset "Legendre Basis Unit Test" begin
+    unit_domain = [ 0.0, 1.0 ]
+    biunit_domain = [ -1.0, 1.0 ]
+    @testset "Linear Basis, Unit Domain" begin
+        @test Basis.evalLegendre( 1, 1, unit_domain, 0.0 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 1, unit_domain, 0.5 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 1, unit_domain, 1.0 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 2, unit_domain, 0.0 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 0.0 )
+        @test Basis.evalLegendre( 1, 2, unit_domain, 0.5 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 0.5 )
+        @test Basis.evalLegendre( 1, 2, unit_domain, 1.0 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 1.0 )
+    end
+    @testset "Linear Basis, Biunit Domain" begin
+        @test Basis.evalLegendre( 1, 1, biunit_domain, -1.0 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 1, biunit_domain, +0.0 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 1, biunit_domain, +1.0 ) ≈ +1.0
+        @test Basis.evalLegendre( 1, 2, biunit_domain, -1.0 ) ≈ -1.0
+        @test Basis.evalLegendre( 1, 2, biunit_domain, +0.0 ) ≈ +0.0
+        @test Basis.evalLegendre( 1, 2, biunit_domain, +1.0 ) ≈ +1.0
+    end
+    @testset "Quadratic Basis, Unit Domain" begin
+        @test Basis.evalLegendre( 2, 1, unit_domain, 0.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 1, unit_domain, 0.5 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 1, unit_domain, 1.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 2, unit_domain, 0.0 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 0.0 )
+        @test Basis.evalLegendre( 2, 2, unit_domain, 0.5 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 0.5 )
+        @test Basis.evalLegendre( 2, 2, unit_domain, 1.0 ) ≈ Basis.affineMapping( unit_domain, biunit_domain, 1.0 )
+        @test Basis.evalLegendre( 2, 3, unit_domain, 0.0 ) ≈ 0.5 * ( 3.0 * Basis.affineMapping( unit_domain, biunit_domain, 0.0 ) ^ 2.0 - 1.0 )
+        @test Basis.evalLegendre( 2, 3, unit_domain, 0.5 ) ≈ 0.5 * ( 3.0 * Basis.affineMapping( unit_domain, biunit_domain, 0.5 ) ^ 2.0 - 1.0 )
+        @test Basis.evalLegendre( 2, 3, unit_domain, 1.0 ) ≈ 0.5 * ( 3.0 * Basis.affineMapping( unit_domain, biunit_domain, 1.0 ) ^ 2.0 - 1.0 )
+    end
+    @testset "Quadratic Basis, Biunit Domain" begin
+        @test Basis.evalLegendre( 2, 1, biunit_domain, -1.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 1, biunit_domain, +0.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 1, biunit_domain, +1.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 2, biunit_domain, -1.0 ) ≈ -1.0
+        @test Basis.evalLegendre( 2, 2, biunit_domain, +0.0 ) ≈ 0.0
+        @test Basis.evalLegendre( 2, 2, biunit_domain, +1.0 ) ≈ 1.0
+        @test Basis.evalLegendre( 2, 3, biunit_domain, -1.0 ) ≈ 0.5 * ( 3.0 * (-1.0)^2 - 1.0 )
+        @test Basis.evalLegendre( 2, 3, biunit_domain, +0.0 ) ≈ 0.5 * ( 3.0 * (+0.0)^2 - 1.0 )
+        @test Basis.evalLegendre( 2, 3, biunit_domain, +1.0 ) ≈ 0.5 * ( 3.0 * (+1.0)^2 - 1.0 )
+    end
+end
+
 @testset "Monomial Basis Unit Test" begin
     unit_domain = [ 0.0, 1.0 ]
     biunit_domain = [ -1.0, 1.0 ]

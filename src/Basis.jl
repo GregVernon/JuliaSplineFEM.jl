@@ -28,6 +28,21 @@ function evalLagrange( degree, basis_idx, domain, x )
     return basis_val
 end
 
+function evalLegendre( degree, basis_idx, domain, x )
+    ξ = affineMapping( domain, [ -1.0, 1.0 ], x )
+    if basis_idx == 1
+        basis_val = 1.0
+    elseif basis_idx == 2
+        basis_val = ξ
+    else
+        n = basis_idx - 2
+        term1 = ( ( 2 * n ) + 1 ) * ξ * evalLegendre( n, n + 1, domain, x )
+        term2 = n * evalLegendre( n-1, n, domain, x )
+        basis_val = ( term1 - term2 ) / ( n + 1 )
+    end
+    return basis_val
+end
+
 function evalMonomial( degree, basis_idx, domain, x )
     ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
     return ξ ^ ( basis_idx - 1 )
