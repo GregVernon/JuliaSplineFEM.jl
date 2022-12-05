@@ -90,35 +90,46 @@ end
         @test Basis.evalBernstein( 2, 3, biunit_domain, +1.0 ) ≈ 1.00
     end
 end
+
+@testset "Lagrange Basis Unit Test" begin
+    unit_domain = [ 0.0, 1.0 ]
+    biunit_domain = [ -1.0, 1.0 ]
+    @testset "Linear Basis, Unit Domain" begin
+        @test Basis.evalLagrange( 1, 1, unit_domain, 0.0 ) ≈ 1.0
+        @test Basis.evalLagrange( 1, 2, unit_domain, 0.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 1, 1, unit_domain, 0.5 ) ≈ 0.5
+        @test Basis.evalLagrange( 1, 2, unit_domain, 0.5 ) ≈ 0.5
+        @test Basis.evalLagrange( 1, 1, unit_domain, 1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 1, 2, unit_domain, 1.0 ) ≈ 1.0
     end
     @testset "Linear Basis, Biunit Domain" begin
-        @test Basis.evalBernstein( 1, 0, -1.0, biunit_domain ) ≈ 1.0
-        @test Basis.evalBernstein( 1, 1, -1.0, biunit_domain ) ≈ 0.0
-        @test Basis.evalBernstein( 1, 0, +0.0, biunit_domain ) ≈ 0.5
-        @test Basis.evalBernstein( 1, 1, +0.0, biunit_domain ) ≈ 0.5
-        @test Basis.evalBernstein( 1, 0, +1.0, biunit_domain ) ≈ 0.0
-        @test Basis.evalBernstein( 1, 1, +1.0, biunit_domain ) ≈ 1.0
+        @test Basis.evalLagrange( 1, 1, biunit_domain, -1.0 ) ≈ 1.0
+        @test Basis.evalLagrange( 1, 2, biunit_domain, -1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 1, 1, biunit_domain, +0.0 ) ≈ 0.5
+        @test Basis.evalLagrange( 1, 2, biunit_domain, +0.0 ) ≈ 0.5
+        @test Basis.evalLagrange( 1, 1, biunit_domain, +1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 1, 2, biunit_domain, +1.0 ) ≈ 1.0
     end
     @testset "Quadratic Basis, Unit Domain" begin
-        @test Basis.evalBernstein( 2, 0, 0.0, unit_domain ) ≈ 1.00
-        @test Basis.evalBernstein( 2, 1, 0.0, unit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 2, 0.0, unit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 0, 0.5, unit_domain ) ≈ 0.25
-        @test Basis.evalBernstein( 2, 1, 0.5, unit_domain ) ≈ 0.50
-        @test Basis.evalBernstein( 2, 2, 0.5, unit_domain ) ≈ 0.25
-        @test Basis.evalBernstein( 2, 0, 1.0, unit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 1, 1.0, unit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 2, 1.0, unit_domain ) ≈ 1.00
+        @test Basis.evalLagrange( 2, 1, unit_domain, 0.0 ) ≈ 1.0
+        @test Basis.evalLagrange( 2, 2, unit_domain, 0.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 3, unit_domain, 0.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 1, unit_domain, 0.5 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 2, unit_domain, 0.5 ) ≈ 1.0
+        @test Basis.evalLagrange( 2, 3, unit_domain, 0.5 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 1, unit_domain, 1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 2, unit_domain, 1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 3, unit_domain, 1.0 ) ≈ 1.0
     end
     @testset "Quadratic Basis, Biunit Domain" begin
-        @test Basis.evalBernstein( 2, 0, -1.0, biunit_domain ) ≈ 1.00
-        @test Basis.evalBernstein( 2, 1, -1.0, biunit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 2, -1.0, biunit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 0, +0.0, biunit_domain ) ≈ 0.25
-        @test Basis.evalBernstein( 2, 1, +0.0, biunit_domain ) ≈ 0.50
-        @test Basis.evalBernstein( 2, 2, +0.0, biunit_domain ) ≈ 0.25
-        @test Basis.evalBernstein( 2, 0, +1.0, biunit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 1, +1.0, biunit_domain ) ≈ 0.00
-        @test Basis.evalBernstein( 2, 2, +1.0, biunit_domain ) ≈ 1.00
+        @test Basis.evalLagrange( 2, 1, biunit_domain, -1.0 ) ≈ 1.0
+        @test Basis.evalLagrange( 2, 2, biunit_domain, -1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 3, biunit_domain, -1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 1, biunit_domain, +0.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 2, biunit_domain, +0.0 ) ≈ 1.0
+        @test Basis.evalLagrange( 2, 3, biunit_domain, +0.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 1, biunit_domain, +1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 2, biunit_domain, +1.0 ) ≈ 0.0
+        @test Basis.evalLagrange( 2, 3, biunit_domain, +1.0 ) ≈ 1.0
     end
 end

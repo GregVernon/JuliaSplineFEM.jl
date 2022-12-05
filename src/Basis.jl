@@ -16,4 +16,16 @@ function evalBernstein( degree, basis_idx, domain, x )
     return basis_val
 end
 
+function evalLagrange( degree, basis_idx, domain, x )
+    ξ = affineMapping( domain, [ -1.0, 1.0 ], x )
+    nodes = LinRange( -1.0, 1.0, degree + 1 )
+    basis_val = 1.0
+    for i = 1 : degree + 1
+        if i != basis_idx
+            basis_val *= ( ξ - nodes[i] ) / ( nodes[basis_idx] - nodes[i] )
+        end
+    end
+    return basis_val
+end
+
 end
