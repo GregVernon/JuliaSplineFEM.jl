@@ -1,2 +1,7 @@
+name = "JuliaSplineFEM"
+uuid = "b347485e-0ca0-4501-ac60-187e9017bef1"
+authors = ["gvernon2 <greg.j.vernon@gmail.com>"]
+version = "0.1.0"
+
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
