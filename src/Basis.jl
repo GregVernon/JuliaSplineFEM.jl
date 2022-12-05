@@ -1,10 +1,10 @@
 module Basis
 
 function affineMapping( domain, target_domain, x )
-    A = [ [ 1.0, 1.0 ] [ domain[1], domain[2] ] ]
-    c = A \ target_domain
-    fx =  c[1] + c[2] * x
-    return fx
+    x -= domain[1]
+    x *= ( target_domain[2] - target_domain[1] ) / ( domain[2] - domain[1] )
+    x += target_domain[1]
+    return x
 end
 
 function evalBernstein( degree, basis_idx, x, domain )
