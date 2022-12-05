@@ -1,5 +1,5 @@
 module JuliaSplineFEM
 
-greet() = print("Hello World!")
+include( "Basis.jl" )
 
-end # module JuliaSplineFEM
+end
