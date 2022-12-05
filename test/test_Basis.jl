@@ -6,8 +6,8 @@ import Statistics
 include( "../src/Basis.jl" )
 
 @testset "Affine Mapping Unit Test" begin
-    unit_domain = [ 0, 1 ]
-    biunit_domain = [ -1, 1 ]
+    unit_domain = [ 0.0, 1.0 ]
+    biunit_domain = [ -1.0, 1.0 ]
     elem_domain = [ 15.5, 18.5 ]
     # Unit Domain --> Biunit Domain
     @test Basis.affineMapping( unit_domain, biunit_domain, unit_domain[1] ) ≈ biunit_domain[1]
@@ -36,8 +36,8 @@ include( "../src/Basis.jl" )
 end
 
 @testset "Affine Mapping Performance Test" begin
-    unit_domain = [ 0, 1 ]
-    biunit_domain = [ -1, 1 ]
+    unit_domain = [ 0.0, 1.0 ]
+    biunit_domain = [ -1.0, 1.0 ]
     elem_domain = [ 15.5, 18.5 ]
     # Unit Domain --> Biunit Domain
     @test Statistics.median( @benchmark Basis.affineMapping( $unit_domain, $biunit_domain, 0.5 ) ).time <= 50.0
@@ -49,8 +49,8 @@ end
 end
 
 @testset "Bernstein Basis Unit Test" begin
-    unit_domain = [ 0, 1 ]
-    biunit_domain = [ -1, 1 ]
+    unit_domain = [ 0.0, 1.0 ]
+    biunit_domain = [ -1.0, 1.0 ]
     @testset "Linear Basis, Unit Domain" begin
         @test Basis.evalBernstein( 1, 1, unit_domain, 0.0 ) ≈ 1.0
         @test Basis.evalBernstein( 1, 2, unit_domain, 0.0 ) ≈ 0.0
