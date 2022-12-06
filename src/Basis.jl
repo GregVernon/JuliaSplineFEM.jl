@@ -1,4 +1,7 @@
 module Basis
+import SpecialMatrices
+import LinearAlgebra
+import Polynomials
 
 function affineMapping( domain, target_domain, x )
     x -= domain[1]
@@ -44,8 +47,22 @@ function evalLegendre( degree, basis_idx, domain, x )
 end
 
 function evalMonomial( degree, basis_idx, domain, x )
-    ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
+    ξ = affineMapping( domain, [ -1.0, 1.0 ], x )
     return ξ ^ ( basis_idx - 1 )
+end
+
+function computeLegendreRoots( degree )
+    nodes = LinRange( -1.0, 1.0, degree + 1 )
+    V = SpecialMatrices.Vandermonde( nodes )
+    b = zeros( Float64, degree + 1 )
+    for i = axes( nodes, 1 )
+        b[i] = evalLegendre( degree, degree + 1, [ -1.0, 1.0 ], nodes[i] )
+    end
+    coeff = V \ b
+    P = Polynomials.Polynomial( coeff )
+    C = SpecialMatrices.Companion( P )
+    roots = LinearAlgebra.eigvals( C )
+    return roots
 end
 
 end
