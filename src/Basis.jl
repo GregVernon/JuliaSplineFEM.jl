@@ -47,7 +47,7 @@ function evalLegendre( degree, basis_idx, domain, x )
 end
 
 function evalMonomial( degree, basis_idx, domain, x )
-    ξ = affineMapping( domain, [ -1.0, 1.0 ], x )
+    ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
     return ξ ^ ( basis_idx - 1 )
 end
 
