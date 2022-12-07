@@ -1,14 +1,31 @@
 module Quadrature
+
+include( "../src/Basis.jl" )
+
 import ..Basis
 import LinearAlgebra 
+import ForwardDiff
 
-function integrateOverElement( fun, domain, method )
+function integrateOverElement( fun, domain, num_points )
+    ξ, w = getGaussLegendreQuadrature( num_points )
+    I = 0.0
+    for i = axes( ξ, 1 )
+        x = Basis.affineMapping( [-1, 1], domain, ξ[i] )
+        J = ForwardDiff.derivative( (ξ) -> Basis.affineMapping( [-1, 1], domain, ξ ) , ξ[i] )
+        I += fun( x ) * w[i] * J
+    end
+    return I
 end
 
 function getGaussLegendreQuadrature( num_points )
     ξ = Basis.computeLegendreRoots( num_points )
+    ξ = isempty( ξ ) ? [0.0] : ξ
     w = solveLinearMomentFit( ξ )
     return ξ, w
+end
+
+function computeNumGaussPointsFromPolynomialDegree( degree )
+    return Int( ceil( ( degree + 1.0 ) / 2.0 ) )
 end
 
 function solveLinearMomentFit( ξ )
