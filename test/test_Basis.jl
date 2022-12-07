@@ -219,3 +219,10 @@ end
         @test Basis.evalMonomial( 2, 3, biunit_domain, +1.0 ) ≈ 1.00
     end
 end
+
+@testset "Compute Legendre Roots" begin
+    @test Basis.computeLegendreRoots( 0 ) == empty(Vector{Float64}([]))
+    @test isapprox( Basis.computeLegendreRoots( 1 ), 0.0 )
+    @test isapprox( Basis.computeLegendreRoots( 2 ), [ -1/sqrt(3), 1/sqrt(3) ] )
+    @test isapprox( Basis.computeLegendreRoots( 3 ), [ -sqrt(3/5), 0, sqrt(3/5) ] )
+end

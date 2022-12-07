@@ -52,16 +52,20 @@ function evalMonomial( degree, basis_idx, domain, x )
 end
 
 function computeLegendreRoots( degree )
-    nodes = LinRange( -1.0, 1.0, degree + 1 )
-    V = SpecialMatrices.Vandermonde( nodes )
-    b = zeros( Float64, degree + 1 )
-    for i = axes( nodes, 1 )
-        b[i] = evalLegendre( degree, degree + 1, [ -1.0, 1.0 ], nodes[i] )
+    if degree == 0
+        roots = empty(Vector{Float64}([]))
+    else
+        nodes = LinRange( -1.0, 1.0, degree + 1 )
+        V = SpecialMatrices.Vandermonde( nodes )
+        b = zeros( Float64, degree + 1 )
+        for i = axes( nodes, 1 )
+            b[i] = evalLegendre( degree, degree + 1, [ -1.0, 1.0 ], nodes[i] )
+        end
+        coeff = V \ b
+        P = Polynomials.Polynomial( coeff )
+        C = SpecialMatrices.Companion( P )
+        roots = LinearAlgebra.eigvals( C )
     end
-    coeff = V \ b
-    P = Polynomials.Polynomial( coeff )
-    C = SpecialMatrices.Companion( P )
-    roots = LinearAlgebra.eigvals( C )
     return roots
 end
 
