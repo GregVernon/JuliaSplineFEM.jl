@@ -1,12 +1,3 @@
-module Basis
-
-import SpecialMatrices
-import LinearAlgebra
-import Polynomials
-
-push!(LOAD_PATH, "./src" )
-import Quadrature
-
 function affineMapping( domain, target_domain, x )
     x -= domain[1]
     x *= ( target_domain[2] - target_domain[1] ) / ( domain[2] - domain[1] )
@@ -57,7 +48,7 @@ end
 
 function polynomialChangeOfBasis( poly_basis_1, poly_basis_2, coeff_1, domain )
     degree = length( coeff_1 ) - 1
-    num_qp = Quadrature.computeNumGaussPointsFromPolynomialDegree( 2 * degree )
+    num_qp = computeNumGaussPointsFromPolynomialDegree( 2 * degree )
     C = zeros( degree + 1, degree + 1 )
     D = zeros( degree + 1, degree + 1 )
     for i = 1 : degree + 1
@@ -65,8 +56,8 @@ function polynomialChangeOfBasis( poly_basis_1, poly_basis_2, coeff_1, domain )
         for j = 1 : degree + 1
             N2j = (x) -> poly_basis_2( degree, j, domain, x )
             N1j = (x) -> poly_basis_1( degree, j, domain, x )
-            C[i,j] += Quadrature.integrateOverElement( (x)-> N2i(x) * N1j(x), domain, num_qp )
-            D[i,j] += Quadrature.integrateOverElement( (x)-> N2i(x) * N2j(x), domain, num_qp )
+            C[i,j] += integrateOverElement( (x)-> N2i(x) * N1j(x), domain, num_qp )
+            D[i,j] += integrateOverElement( (x)-> N2i(x) * N2j(x), domain, num_qp )
         end
     end
 
@@ -91,6 +82,4 @@ function computeLegendreRoots( degree )
         roots = LinearAlgebra.eigvals( C )
     end
     return roots
-end
-
 end
