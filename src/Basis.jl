@@ -55,6 +55,26 @@ function evalMonomial( degree, basis_idx, domain, x )
     return ξ ^ ( basis_idx - 1 )
 end
 
+function polynomialChangeOfBasis( poly_basis_1, poly_basis_2, coeff_1, domain )
+    degree = length( coeff_1 ) - 1
+    num_qp = Quadrature.computeNumGaussPointsFromPolynomialDegree( 2 * degree )
+    C = zeros( degree + 1, degree + 1 )
+    D = zeros( degree + 1, degree + 1 )
+    for i = 1 : degree + 1
+        N2i = (x) -> poly_basis_2( degree, i, domain, x )
+        for j = 1 : degree + 1
+            N2j = (x) -> poly_basis_2( degree, j, domain, x )
+            N1j = (x) -> poly_basis_1( degree, j, domain, x )
+            C[i,j] += Quadrature.integrateOverElement( (x)-> N2i(x) * N1j(x), domain, num_qp )
+            D[i,j] += Quadrature.integrateOverElement( (x)-> N2i(x) * N2j(x), domain, num_qp )
+        end
+    end
+
+    R = D \ C
+    d = R * coeff_1
+    return d, R
+end
+
 function computeLegendreRoots( degree )
     if degree == 0
         roots = empty(Vector{Float64}([]))
