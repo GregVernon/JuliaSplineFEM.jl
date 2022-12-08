@@ -1,7 +1,11 @@
 module Basis
+
 import SpecialMatrices
 import LinearAlgebra
 import Polynomials
+
+push!(LOAD_PATH, "./src" )
+import Quadrature
 
 function affineMapping( domain, target_domain, x )
     x -= domain[1]

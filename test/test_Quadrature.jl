@@ -3,9 +3,8 @@ using Test
 
 import Statistics 
 
-include( "../src/Quadrature.jl" )
-# import ..JuliaSplineFEM
-import .Quadrature
+push!(LOAD_PATH, "./src" )
+import Quadrature
 
 @testset "Integrate Polynomials Test" begin
     unit_domain = [ 0.0, 1.0 ]

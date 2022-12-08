@@ -1,10 +1,10 @@
 module Quadrature
 
-include( "../src/Basis.jl" )
-
-import ..Basis
 import LinearAlgebra 
 import ForwardDiff
+
+push!(LOAD_PATH, "./src" )
+import Basis
 
 function integrateOverElement( fun, domain, num_points )
     ξ, w = getGaussLegendreQuadrature( num_points )
