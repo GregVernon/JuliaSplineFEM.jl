@@ -29,5 +29,18 @@ import .Quadrature
         exact_int = ( ( elem_domain[2] ^ ( degree + 1 ) ) - ( elem_domain[1] ^ ( degree + 1 ) ) ) / ( degree + 1 )
         @test isapprox( Quadrature.integrateOverElement( (x) -> x^degree, elem_domain, num_qp ), exact_int, atol = 1e-12, rtol = 1e-12 )
     end
-    
+end
+
+@testset "computeNumGaussPointsFromPolynomialDegree" begin
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 0 ) == 1
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 1 ) == 1
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 2 ) == 2
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 3 ) == 2
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 4 ) == 3
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 5 ) == 3
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 6 ) == 4
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 7 ) == 4
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 8 ) == 5
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 9 ) == 5
+    @test Quadrature.computeNumGaussPointsFromPolynomialDegree( 10 ) == 6
 end
