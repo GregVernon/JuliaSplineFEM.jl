@@ -46,6 +46,14 @@ function evalMonomial( degree, basis_idx, domain, x )
     return ξ ^ ( basis_idx - 1 )
 end
 
+function evalElementBasis( basis::Function, degree, domain, x )
+    f = zeros( degree + 1 )
+    for i = 1:degree+1
+        f[i] = basis( degree, i, domain, x )
+    end
+    return f
+end
+
 function polynomialChangeOfBasis( poly_basis_1, poly_basis_2, coeff_1, domain )
     degree = length( coeff_1 ) - 1
     num_qp = computeNumGaussPointsFromPolynomialDegree( 2 * degree )
