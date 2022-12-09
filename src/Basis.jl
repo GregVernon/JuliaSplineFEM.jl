@@ -43,13 +43,30 @@ end
 
 function evalMonomial( degree, basis_idx, domain, x )
     ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
-    return ξ ^ ( basis_idx - 1 )
+    basis_val = ξ ^ ( basis_idx - 1 )
+    return basis_val
+end
+
+function evalSplineBasis( extraction_operator, basis_idx, domain, x )
+    degree = size( extraction_operator, 1 ) - 1
+    B = evalElementBasis( evalBernstein, degree, domain, x )
+    basis_val = transpose( extraction_operator[basis_idx, :] ) * B
+    return basis_val
 end
 
 function evalElementBasis( basis::Function, degree, domain, x )
     f = zeros( degree + 1 )
     for i = 1:degree+1
         f[i] = basis( degree, i, domain, x )
+    end
+    return f
+end
+
+function evalElementBasis( basis::Function, extraction_operator::Matrix, domain, x )
+    degree = size( extraction_operator, 1 ) - 1
+    f = zeros( degree + 1 )
+    for i = 1:degree+1
+        f[i] = basis( extraction_operator, i, domain, x )
     end
     return f
 end
