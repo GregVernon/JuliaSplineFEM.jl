@@ -219,3 +219,15 @@ end
     @test isapprox( JuliaSplineFEM.computeLegendreRoots( 2 ), [ -1/sqrt(3), 1/sqrt(3) ] )
     @test isapprox( JuliaSplineFEM.computeLegendreRoots( 3 ), [ -sqrt(3/5), 0, sqrt(3/5) ] )
 end
+
+@testset "polynomialChangeOfBasis" begin
+    for n = 0:10
+        domain = sort( rand(2)*2 .- 1 )
+        c = rand( n+1 )*2 .- 1
+        d, _ = JuliaSplineFEM.polynomialChangeOfBasis( JuliaSplineFEM.evalLegendre, JuliaSplineFEM.evalBernstein, c, domain )
+        pc = (x) -> transpose( c ) * JuliaSplineFEM.evalElementBasis( JuliaSplineFEM.evalLegendre, n, domain, x )
+        pd = (x) -> transpose( d ) * JuliaSplineFEM.evalElementBasis( JuliaSplineFEM.evalBernstein, n, domain, x )
+        num_qp = JuliaSplineFEM.computeNumGaussPointsFromPolynomialDegree( n ) + 1
+        @test isapprox( JuliaSplineFEM.integrateOverElement( (x)->abs( pc(x) - pd(x) ), domain, num_qp ), 0.0, atol = 1e-12 )
+    end
+end
