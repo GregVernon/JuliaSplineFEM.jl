@@ -9,7 +9,7 @@ function integrateOverElement( fun, domain, num_points )
     return I
 end
 
-function getGaussLegendreQuadrature( num_points )
+@memoize function getGaussLegendreQuadrature( num_points )
     ξ = computeLegendreRoots( num_points )
     ξ = isempty( ξ ) ? [0.0] : ξ
     w = solveLinearMomentFit( ξ )
