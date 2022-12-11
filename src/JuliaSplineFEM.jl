@@ -7,8 +7,9 @@ import ForwardDiff
 import JSON
 using Memoize
 
+include( "Bext.jl" )
 include( "Basis.jl" )
 include( "Quadrature.jl" )
-include( "Bext.jl" )
+include( "Galerkin.jl" )
 
 end
