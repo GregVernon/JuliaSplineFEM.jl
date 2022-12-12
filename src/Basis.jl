@@ -14,6 +14,21 @@ function evalBernstein( degree, basis_idx, domain, x )
     return basis_val
 end
 
+function evalChebyshev( degree, basis_idx, domain, x )
+    ξ = affineMapping( domain, [ 0.0, 1.0 ], x )
+    if basis_idx == 1
+        basis_val = 1.0
+    elseif basis_idx == 2
+        basis_val = ξ
+    else
+        n = basis_idx - 2
+        term1 = 2 * ξ * evalChebyshev( degree, basis_idx - 1, domain, x )
+        term2 = evalChebyshev( degree, basis_idx - 2, domain, x )
+        basis_val = term1 - term2 
+    end
+    return basis_val
+end
+
 function evalLagrange( degree, basis_idx, domain, x )
     ξ = affineMapping( domain, [ -1.0, 1.0 ], x )
     nodes = LinRange( -1.0, 1.0, degree + 1 )
